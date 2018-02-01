@@ -22,6 +22,14 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/org.bitcoinj/bitcoinj-core -->
+		<dependency>
+			<groupId>org.bitcoinj</groupId>
+			<artifactId>bitcoinj-core</artifactId>
+			<version>0.14.5</version>
+		</dependency>
+
+
 		<!-- project lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -32,6 +40,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Spring Boot AOP 依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		
+		<!-- Spring Boot configuration 依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<!-- Spring Boot Test 依赖 -->
@@ -59,6 +80,8 @@
 			<artifactId>druid</artifactId>
 			<version>${druid}</version>
 		</dependency>
+
+
 
 		<!-- 分页插件 -->
 		<dependency>

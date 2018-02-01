@@ -5,7 +5,7 @@ server:
 #日志配置
 logging:
   level: 
-    learning: trace
+    learning: debug
 
 spring:
   #mongodb配置
@@ -14,8 +14,41 @@ spring:
       host: 192.168.1.111
       port: 27017
       database: test
-  #数据源配置
+  #数据源配置（多数据源）
   datasource:
+    use-global-data-source-stat: true
+    # Druid AOP config
+    aop-patterns: cn.smarthse.service.*
+    aop-proxy-target-class: true
+    # 1.Master datasource config 读写
+    master: 
+      name: master
+      url: jdbc:mysql://localhost/product_master?useSSL=false
+      port: 3306
+      username: root
+      password: 123456
+    # 2.SlaveAlpha datasource config 读
+    slave1: 
+      name: SlaveAlpha
+      url: jdbc:mysql://localhost/product_slave_alpha?useSSL=false
+      port: 3306
+      username: root
+      password: 123456
+    # 3.SlaveBeta datasource config 读
+    slave2: 
+      name: SlaveBeta
+      url: jdbc:mysql://localhost/product_slave_beta?useSSL=false
+      port: 3306
+      username: root
+      password: 123456
+    # 4.SlaveGamma datasource config 读
+    slave3: 
+      name: SlaveGamma
+      url: jdbc:mysql://localhost/product_slave_gamma?useSSL=false
+      port: 3306
+      username: root
+      password: 123456
+
     url: jdbc:mysql://192.168.1.188:3306/HospitalDevice
     username: hd-dev
     password: 123456
@@ -39,17 +72,21 @@ spring:
       min-idle: 1
       max-idle: 1
 
-#mybatis配置：实体类路径+sql文件mapper
+#mybatis配置：dao层接口路径+sql文件mapper
 mybatis:
-  type-aliases-package: cn.smarthse.core.model
-  mapper-locations: classpath:mapper/**/*Mapper.xml
+  default: 
+    type-aliases-package: cn.smarthse.core.dao
+    mapper-locations: classpath:mapper/default/**/*Mapper.xml
+  readwrite: 
+    type-aliases-package: cn.smarthse.admin.dao
+    mapper-locations: classpath:mapper/readwrite/**/*Mapper.xml
 
 #邮件配置
 mail:
   host: smtp.163.com
   port: 21  
   username: darcy_lee@163.com #开通了smtp服务的QQ邮箱  
-  password: darcy002674 #授权码  
+  password: 123456 #授权码  
   smtp:
     auth: true  
     timeout: 30000  

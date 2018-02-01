@@ -27,7 +27,9 @@ public class ResponseData<T> implements Serializable{
     public ResponseData(String message){
     	this.message = message;
     }
-    
+    public ResponseData(T t){
+    	this.data = t;
+    }   
     public ResponseData(){
     }
 	public Integer getCode() {

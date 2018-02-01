@@ -69,7 +69,7 @@ public class MailConfig {
 		p.setProperty("mail.smtp.socketFactory.class", socketFactoryClass);
 		p.setProperty("mail.smtp.socketFactory.fallback", socketFactoryFallback);
 		a.setJavaMailProperties(p);
-		log.info("step1：定义JavaMailSender: " + a.toString());
+		log.info("Mail step1：定义JavaMailSender: " + a.toString());
 		return a;
 	}
 
@@ -78,7 +78,7 @@ public class MailConfig {
 	public SimpleMailMessage simpleMailMessage() {
 		SimpleMailMessage a = new SimpleMailMessage();
 		a.setFrom(from);
-		log.info("step2：定义SimpleMailMessage: 发件人信息");
+		log.info("Mail step2：定义SimpleMailMessage: 发件人信息");
 		return a;
 	}
 
@@ -90,7 +90,7 @@ public class MailConfig {
 		a.setKeepAliveSeconds(30000);// 线程池维护线程所允许的空闲时间
 		a.setMaxPoolSize(50);// 线程池维护线程的最大数量
 		a.setQueueCapacity(100);// 线程池所使用的缓冲队列
-		log.info("step3：定义ThreadPoolTaskExecutor，线程池发送邮件");
+		log.info("Mail step3：定义ThreadPoolTaskExecutor，线程池发送邮件");
 		return a;
 	}
 
