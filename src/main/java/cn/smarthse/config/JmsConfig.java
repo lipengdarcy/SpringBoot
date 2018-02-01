@@ -16,7 +16,7 @@ import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
-import cn.smarthse.service.jms.JmsMessageListener;
+import cn.smarthse.business.service.jms.JmsMessageListener;
 
 @Configuration
 @EnableJms
@@ -33,7 +33,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 		ActiveMQConnectionFactory a = new ActiveMQConnectionFactory();
 		a.setBrokerURL("tcp://localhost:61616");
 		a.setTrustAllPackages(true); //所有序列化的对象都可以进入mq
-		log.info("step1： 配置连接ActiveMQ的ConnectionFactory ");
+		log.info("JMS step1： 配置连接ActiveMQ的ConnectionFactory ");
 		return a;
 	}
 
@@ -43,7 +43,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 		CachingConnectionFactory a = new CachingConnectionFactory();
 		a.setTargetConnectionFactory(activeMQConnectionFactory());
 		a.setSessionCacheSize(10);
-		log.info("step2： ConnectionFactory的连接池 ");
+		log.info("JMS step2： ConnectionFactory的连接池 ");
 		return a;
 	}
 
@@ -51,7 +51,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 	@Bean
 	public ActiveMQQueue activeMQQueue() {
 		ActiveMQQueue a = new ActiveMQQueue("darcy.queue");
-		log.info("step3： 配置broker的destination");
+		log.info("JMS step3.1： 配置broker的destination");
 		return a;
 	}
 
@@ -59,7 +59,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 	@Bean
 	public ActiveMQTopic activeMQTopic() {
 		ActiveMQTopic a = new ActiveMQTopic("darcy.topic");
-		log.info("step3： 配置broker的destination");
+		log.info("JMS step3.2： 配置broker的destination");
 		return a;
 	}
 
@@ -69,7 +69,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 		JmsTemplate a = new JmsTemplate();
 		a.setConnectionFactory(cachedConnectionFactory);
 		a.setDefaultDestination(destination);
-		log.info("step4： 配置Spring的JmsTemplate");
+		log.info("JMS step4： 配置Spring的JmsTemplate");
 		return a;
 	}
 
@@ -78,7 +78,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 	public JmsMessageListener jmsMessageListener(CachingConnectionFactory cachedConnectionFactory,
 			ActiveMQQueue destination) {
 		JmsMessageListener a = new JmsMessageListener();
-		log.info("step5： 配置Spring的JmsMessageListener");
+		log.info("JMS step5： 配置Spring的JmsMessageListener");
 		return a;
 	}
 
@@ -90,7 +90,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 		a.setConnectionFactory(cachedConnectionFactory);
 		a.setDestination(destination);
 		a.setMessageListener(listener);
-		log.info("step6： 配置listener到listener-container当中");
+		log.info("JMS step6： 配置listener到listener-container当中");
 		return a;
 	}
 

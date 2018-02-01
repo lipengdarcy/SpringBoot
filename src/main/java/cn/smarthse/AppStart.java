@@ -1,13 +1,16 @@
 package cn.smarthse;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
-public class AppStart{
-	
+//@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+public class AppStart {
+
 	public static void main(String[] args) {
 		SpringApplication.run(AppStart.class, args);
 	}
-		
+
 }

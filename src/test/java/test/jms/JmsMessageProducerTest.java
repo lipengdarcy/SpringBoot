@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import cn.smarthse.AppStart;
-import cn.smarthse.service.jms.JmsMessageConsumer;
-import cn.smarthse.service.jms.JmsMessageProducer;
+import cn.smarthse.business.service.jms.JmsMessageConsumer;
+import cn.smarthse.business.service.jms.JmsMessageProducer;
 
 /**
  * Author: 遇见小星 Email: tengxing7452@163.com Date: 17-6-16 Time: 下午12:18
