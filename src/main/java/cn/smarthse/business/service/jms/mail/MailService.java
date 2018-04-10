@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import cn.smarthse.core.model.mail.Mail;
+import cn.smarthse.framework.model.mail.Mail;
 
 @Component
 public class MailService {

@@ -2,14 +2,9 @@ package cn.smarthse.business.service.mongo;
 
 import java.util.List;
 
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.mongo.Customer;
+import cn.smarthse.business.model.system.ASysarea;
 
-public interface MongoService {
-	
-	List<Customer> getAll();
-	
-	List<ASysarea> getAllArea();
-	
+public interface MongoService {	
+	List<ASysarea> getAllArea();	
 	void addList(List<ASysarea> list);
 }

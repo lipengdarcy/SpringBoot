@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import cn.smarthse.AppStart;
 import cn.smarthse.business.service.jms.JmsMessageProducer;
 import cn.smarthse.business.service.jms.mail.MailService;
-import cn.smarthse.core.model.mail.Mail;
+import cn.smarthse.framework.model.mail.Mail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppStart.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

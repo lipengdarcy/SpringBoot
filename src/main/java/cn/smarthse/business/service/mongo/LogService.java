@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 
-import cn.smarthse.core.model.ASystem.ASyslog;
-import cn.smarthse.core.model.common.JqGridData;
+import cn.smarthse.business.model.system.ASyslog;
+import cn.smarthse.framework.model.JqGridData;
 
 public interface LogService {
 

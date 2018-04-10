@@ -6,10 +6,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.smarthse.business.model.system.ASysarea;
 import cn.smarthse.business.service.ASystem.AreaService;
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.common.JqGridData;
-import cn.smarthse.core.model.common.JqGridParam;
+import cn.smarthse.framework.model.JqGridData;
+import cn.smarthse.framework.model.JqGridParam;
 
 @Controller
 @RequestMapping("/area")
