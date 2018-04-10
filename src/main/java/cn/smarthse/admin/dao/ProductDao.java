@@ -1,9 +1,10 @@
 package cn.smarthse.admin.dao;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.apache.ibatis.annotations.Param;
-import cn.smarthse.core.model.Product;
+
+import cn.smarthse.admin.model.Product;
 
 
 public interface ProductDao {

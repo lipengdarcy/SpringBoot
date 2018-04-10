@@ -1,12 +1,12 @@
-package cn.smarthse.core.dao.ASystem;
+package cn.smarthse.business.dao.system;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import cn.smarthse.core.dao.GenericDao;
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.ASystem.ASysareaExample;
+import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.business.model.system.ASysareaExample;
+import cn.smarthse.framework.generic.GenericDao;
 
 public interface ASysareaMapper extends GenericDao<ASysarea>{
 	

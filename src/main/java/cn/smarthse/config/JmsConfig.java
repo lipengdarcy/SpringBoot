@@ -6,6 +6,7 @@ import org.apache.activemq.command.ActiveMQTopic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -23,7 +24,16 @@ import cn.smarthse.business.service.jms.JmsMessageListener;
 public class JmsConfig implements JmsListenerConfigurer {
 
 	private final Log log = LogFactory.getLog(getClass());
-	
+
+	@Value("${jms.url}")
+	private String url;
+
+	@Value("${jms.queueName}")
+	private String queueName;
+
+	@Value("${jms.topicName}")
+	private String topicName;
+
 	@Autowired
 	private JmsMessageListener jmsMessageListener;
 
@@ -31,9 +41,9 @@ public class JmsConfig implements JmsListenerConfigurer {
 	// @Bean("activeMQConnectionFactory")
 	public ActiveMQConnectionFactory activeMQConnectionFactory() {
 		ActiveMQConnectionFactory a = new ActiveMQConnectionFactory();
-		a.setBrokerURL("tcp://localhost:61616");
-		a.setTrustAllPackages(true); //所有序列化的对象都可以进入mq
-		log.info("JMS step1： 配置连接ActiveMQ的ConnectionFactory ");
+		a.setBrokerURL(url);
+		a.setTrustAllPackages(true); // 所有序列化的对象都可以进入mq
+		log.info("JMS step1： 配置连接ActiveMQ的ConnectionFactory: " + url);
 		return a;
 	}
 
@@ -50,16 +60,16 @@ public class JmsConfig implements JmsListenerConfigurer {
 	// 3.1 <!-- 配置broker的destination，点对点的消息-->
 	@Bean
 	public ActiveMQQueue activeMQQueue() {
-		ActiveMQQueue a = new ActiveMQQueue("darcy.queue");
-		log.info("JMS step3.1： 配置broker的destination");
+		ActiveMQQueue a = new ActiveMQQueue(queueName);
+		log.info("JMS step3.1： 配置点对点的消息broker的destination: " + queueName);
 		return a;
 	}
 
 	// 3.2 <!-- 配置broker的destination，订阅/发布的消息-->
 	@Bean
 	public ActiveMQTopic activeMQTopic() {
-		ActiveMQTopic a = new ActiveMQTopic("darcy.topic");
-		log.info("JMS step3.2： 配置broker的destination");
+		ActiveMQTopic a = new ActiveMQTopic(topicName);
+		log.info("JMS step3.2： 配置订阅/发布的消息broker的destination: " + topicName);
 		return a;
 	}
 
@@ -98,7 +108,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 	public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();
 		endpoint.setId("myJmsEndpoint");
-		endpoint.setDestination("darcy.queue");
+		endpoint.setDestination(queueName);
 		endpoint.setMessageListener(jmsMessageListener);
 		registrar.registerEndpoint(endpoint);
 	}

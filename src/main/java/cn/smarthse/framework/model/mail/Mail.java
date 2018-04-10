@@ -1,4 +1,4 @@
-package cn.smarthse.core.model.mail;
+package cn.smarthse.framework.model.mail;
 
 /***
  * 邮件实体

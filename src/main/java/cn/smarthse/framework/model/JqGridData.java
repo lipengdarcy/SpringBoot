@@ -1,13 +1,8 @@
-package cn.smarthse.core.model.common;
+package cn.smarthse.framework.model;
 
 import java.io.Serializable;
 import java.util.List;
-
-import org.springframework.data.domain.PageRequest;
-
 import com.github.pagehelper.Page;
-
-import cn.smarthse.core.model.ASystem.ASyslog;
 
 //1.按照JqGrid的格式定义一个bean
 public class JqGridData<T> implements Serializable {

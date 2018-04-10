@@ -1,4 +1,4 @@
-package cn.smarthse.core.model.ASystem;
+package cn.smarthse.business.model.system;
 
 import java.util.ArrayList;
 import java.util.Date;

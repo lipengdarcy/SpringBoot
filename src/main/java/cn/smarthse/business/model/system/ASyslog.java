@@ -1,4 +1,4 @@
-package cn.smarthse.core.model.ASystem;
+package cn.smarthse.business.model.system;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,7 +31,6 @@ public class ASyslog implements Serializable{
      */
     private Integer uid;
     
-    private AUser user;
     /**
      *   操作IP
      */

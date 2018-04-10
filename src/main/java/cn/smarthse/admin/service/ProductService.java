@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.protobuf.ServiceException;
 
 import cn.smarthse.admin.dao.ProductDao;
-import cn.smarthse.core.model.Product;
+import cn.smarthse.admin.model.Product;
 
 @Service
 public class ProductService {

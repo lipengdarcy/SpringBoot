@@ -1,4 +1,4 @@
-package cn.smarthse.core.dao;
+package cn.smarthse.framework.generic;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -9,8 +9,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.listener.SessionAwareMessageListener;
 import org.springframework.stereotype.Component;
+
 import com.alibaba.fastjson.JSONObject;
-import cn.smarthse.core.model.mail.Mail;
+
+import cn.smarthse.framework.model.mail.Mail;
 
 
 @Component

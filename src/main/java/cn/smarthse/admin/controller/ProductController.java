@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.protobuf.ServiceException;
 
+import cn.smarthse.admin.model.Product;
 import cn.smarthse.admin.service.ProductService;
-import cn.smarthse.core.model.Product;
-import cn.smarthse.core.model.common.ResponseData;
+import cn.smarthse.framework.model.ResponseData;
 
 @RestController
 @RequestMapping("/product")

@@ -10,14 +10,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.business.service.ASystem.AreaService;
 import cn.smarthse.business.service.mongo.LogService;
 import cn.smarthse.business.service.mongo.MongoService;
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.ASystem.ASyslog;
-import cn.smarthse.core.model.common.JqGridData;
-import cn.smarthse.core.model.common.JqGridParam;
-import cn.smarthse.core.model.mongo.Customer;
+import cn.smarthse.framework.model.JqGridData;
+import cn.smarthse.framework.model.JqGridParam;
 
 @Controller
 @RequestMapping("/mongo")
@@ -34,8 +33,6 @@ public class MongoController {
 
 	@RequestMapping()
 	public String init(ModelMap m) {
-		List<Customer> list = MongoService.getAll();
-		m.put("list", list);
 		List<ASysarea> areaList = MongoService.getAllArea();
 		m.put("areaList", areaList);
 		return "Mongo/mongoList";

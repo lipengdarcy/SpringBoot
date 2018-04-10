@@ -10,14 +10,14 @@ import org.springframework.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
+import cn.smarthse.business.dao.system.ASysareaMapper;
+import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.business.model.system.ASysareaExample;
 import cn.smarthse.business.service.ASystem.AreaService;
-import cn.smarthse.core.dao.GenericDao;
-import cn.smarthse.core.dao.GenericServiceImpl;
-import cn.smarthse.core.dao.ASystem.ASysareaMapper;
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.ASystem.ASysareaExample;
-import cn.smarthse.core.model.common.JqGridData;
-import cn.smarthse.core.model.common.JqGridParam;
+import cn.smarthse.framework.generic.GenericDao;
+import cn.smarthse.framework.generic.GenericServiceImpl;
+import cn.smarthse.framework.model.JqGridData;
+import cn.smarthse.framework.model.JqGridParam;
 
 @Service
 public class AreaServiceImpl extends GenericServiceImpl<ASysarea> implements AreaService {

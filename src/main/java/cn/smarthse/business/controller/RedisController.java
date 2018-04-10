@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.smarthse.business.model.system.ASysarea;
 import cn.smarthse.business.service.RedisClient;
-import cn.smarthse.core.model.ASystem.ASysarea;
 
 @Controller
 @RequestMapping("/redis")

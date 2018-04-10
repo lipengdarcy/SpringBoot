@@ -1,4 +1,4 @@
-package cn.smarthse.core.model;
+package cn.smarthse.admin.model;
 
 import java.io.Serializable;
 

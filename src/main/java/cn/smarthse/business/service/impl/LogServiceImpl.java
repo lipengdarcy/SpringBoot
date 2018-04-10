@@ -10,13 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import cn.smarthse.business.dao.mongo.LogDao;
+import cn.smarthse.business.dao.system.ASyslogMapper;
+import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.business.service.mongo.LogService;
-import cn.smarthse.core.dao.GenericDao;
-import cn.smarthse.core.dao.GenericServiceImpl;
-import cn.smarthse.core.dao.ASystem.ASyslogMapper;
-import cn.smarthse.core.dao.mongo.LogDao;
-import cn.smarthse.core.model.ASystem.ASyslog;
-import cn.smarthse.core.model.common.JqGridData;
+import cn.smarthse.framework.generic.GenericDao;
+import cn.smarthse.framework.generic.GenericServiceImpl;
+import cn.smarthse.framework.model.JqGridData;
 
 @Service
 public class LogServiceImpl extends GenericServiceImpl<ASyslog> implements LogService {

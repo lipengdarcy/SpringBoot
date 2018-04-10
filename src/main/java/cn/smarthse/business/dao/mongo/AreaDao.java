@@ -1,8 +1,8 @@
-package cn.smarthse.core.dao.mongo;
+package cn.smarthse.business.dao.mongo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import cn.smarthse.core.model.ASystem.ASysarea;
+import cn.smarthse.business.model.system.ASysarea;
 
 /**
  * mongodb 行政区域

@@ -1,12 +1,12 @@
-package cn.smarthse.core.dao.ASystem;
+package cn.smarthse.business.dao.system;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import cn.smarthse.core.dao.GenericDao;
-import cn.smarthse.core.model.ASystem.ASyslog;
-import cn.smarthse.core.model.ASystem.ASyslogExample;
+import cn.smarthse.business.model.system.ASyslog;
+import cn.smarthse.business.model.system.ASyslogExample;
+import cn.smarthse.framework.generic.GenericDao;
 
 public interface ASyslogMapper extends GenericDao<ASyslog>{
     int countByExample(ASyslogExample example);

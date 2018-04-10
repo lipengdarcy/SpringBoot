@@ -2,9 +2,9 @@ package cn.smarthse.business.service.ASystem;
 
 import java.util.List;
 
-import cn.smarthse.core.model.ASystem.ASysarea;
-import cn.smarthse.core.model.common.JqGridData;
-import cn.smarthse.core.model.common.JqGridParam;
+import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.framework.model.JqGridData;
+import cn.smarthse.framework.model.JqGridParam;
 
 public interface AreaService {
 

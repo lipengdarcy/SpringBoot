@@ -16,7 +16,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -26,7 +25,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 //业务数据库配置
 @Configuration
-@MapperScan(basePackages = "cn.smarthse.core.dao", sqlSessionFactoryRef = "defaultSqlSessionFactory")
+@MapperScan(basePackages = "cn.smarthse.business.dao", sqlSessionFactoryRef = "defaultSqlSessionFactory")
 public class BusinessMybatisConfig {
 
 	private final Log log = LogFactory.getLog(getClass());
