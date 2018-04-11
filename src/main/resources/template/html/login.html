@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>登录 - Bootstrap后台管理系统模版Ace下载</title>
+<title>系统登录</title>
 <!-- basic styles -->
-<link rel="stylesheet" href="/ace/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/static/ace/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/static/ace/css/font-awesome.min.css" />
 
 
@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
 <![endif]-->
 
-<link rel="stylesheet" href="/ace/css/ace.min.css" />
-<link rel="stylesheet" href="/ace/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="/static/ace/css/ace.min.css" />
+<link rel="stylesheet" href="/static/ace/css/ace-rtl.min.css" />
 
 <!--[if lte IE 8]>
 	<link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -57,13 +57,15 @@
 											<fieldset>
 												<label class="block clearfix"> <span
 													class="block input-icon input-icon-right"> <input
-														type="text" class="form-control" placeholder="Username" />
-														<i class="icon-user"></i>
+														type="text" class="form-control" id="username"
+														value="admin" placeholder="Username" /> <i
+														class="icon-user"></i>
 												</span>
 												</label> <label class="block clearfix"> <span
 													class="block input-icon input-icon-right"> <input
-														type="password" class="form-control"
-														placeholder="Password" /> <i class="icon-lock"></i>
+														type="password" class="form-control" id="password"
+														value="111111" placeholder="Password" /> <i
+														class="icon-lock"></i>
 												</span>
 												</label>
 
@@ -74,9 +76,9 @@
 														class="ace" /> <span class="lbl"> Remember Me</span>
 													</label>
 
-													<button type="button"
+													<button type="button" onclick="login();"
 														class="width-35 pull-right btn btn-sm btn-primary">
-														<i class="icon-key"></i> Login
+														<i class="icon-key"></i> 登录
 													</button>
 												</div>
 
@@ -255,35 +257,41 @@
 			document.write("<script src='/ace/js/jquery.mobile.custom.min.js'>"
 					+ "<"+"/script>");
 	</script>
+	<script src="/static/js/jquery.md5.js"></script>
 
-	<script type="text/javascript">
+	<#assign ctx=request.getContextPath()> <script
+		type="text/javascript">
 		function show_box(id) {
 			jQuery('.widget-box.visible').removeClass('visible');
 			jQuery('#' + id).addClass('visible');
 		}
+		
+		<#if Session.account_session_uid?exists>  
+		        ${Session.account_session_uid}   
+		</#if>  
 
 		//登陆
 		function login() {
-			var plainPassword = $("#plainPassword").val();
-			$("#form input[name='password']").val($.md5(plainPassword));
+			var userName = $('#username').val();
+			var passWord = $.md5($("#password").val());
+			if(userName=='' || $("#password").val()==''){
+				alert('用户名、密码不能为空');
+				return;
+			}
 			$.ajax({
-				url : home_url + '/admin/login',
-				data : $("#form").serialize(),
+				url : '${ctx}/security/login',
+				data : {userName:userName, passWord:passWord},
 				type : 'post',
 				dataType : 'json',
 				success : function(data) {
 					if (data.code == 0) {
-						window.location.href = home_url + "/admin";
+						window.location.href = "${ctx}/";
 					} else {
-						$.jGrowl(data.message);
+						alert(data.message);
 					}
-				},
-				error : function() {
-					$.jGrowl(data.message);
-				}
+				}				
 			});
 		}
 	</script>
-
 </body>
 </html>

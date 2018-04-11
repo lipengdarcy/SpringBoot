@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.business.model.system.SysAreaStandard;
 import cn.smarthse.business.service.ASystem.AreaService;
 import cn.smarthse.framework.model.JqGridData;
 import cn.smarthse.framework.model.JqGridParam;
@@ -19,13 +19,13 @@ public class AreaController {
 
 	@RequestMapping()
 	public String init(ModelMap m) {
-		return "ASystem/areaList";
+		return "common/areaList";
 	}
 
 	@RequestMapping("/getData")
 	@ResponseBody
-	public JqGridData<ASysarea> get(JqGridParam param) {
-		JqGridData<ASysarea> list = AreaService.getAll(param);
+	public JqGridData<SysAreaStandard> get(JqGridParam param) {
+		JqGridData<SysAreaStandard> list = AreaService.getAll(param);
 		return list;
 	}
 

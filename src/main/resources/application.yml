@@ -61,7 +61,7 @@ spring:
     request-context-attribute: request
     template-loader-path: classpath:/template
     suffix: .html
-    prefix: /html/
+    prefix: /html/   
   #redis缓存配置
   redis:
     host: 127.0.0.1

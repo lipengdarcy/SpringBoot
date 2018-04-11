@@ -10,8 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.smarthse.business.model.system.ASysarea;
 import cn.smarthse.business.model.system.ASyslog;
+import cn.smarthse.business.model.system.SysAreaStandard;
 import cn.smarthse.business.service.ASystem.AreaService;
 import cn.smarthse.business.service.mongo.LogService;
 import cn.smarthse.business.service.mongo.MongoService;
@@ -33,7 +33,7 @@ public class MongoController {
 
 	@RequestMapping()
 	public String init(ModelMap m) {
-		List<ASysarea> areaList = MongoService.getAllArea();
+		List<SysAreaStandard> areaList = MongoService.getAllArea();
 		m.put("areaList", areaList);
 		return "Mongo/mongoList";
 	}
@@ -70,7 +70,7 @@ public class MongoController {
 	@RequestMapping("import")
 	@ResponseBody
 	public String inportFromMysql(ModelMap m) {
-		List<ASysarea> list = AreaService.getAll();
+		List<SysAreaStandard> list = AreaService.getAll();
 		// MongoService.addList(list);
 		return "mysql数据导入mongo成功，导入记录数：" + list.size();
 	}

@@ -41,19 +41,10 @@ public class LoginController {
 	private UserManager userManager;
 
 	@ResponseBody
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/security/login", method = RequestMethod.POST)
 	public ResponseData<String> login(AdminUser user, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		ResponseData<String> r = new ResponseData<String>();
-		// 先判断验证码
-		String vcode = (String) request.getSession().getAttribute("vcode");
-		// 增加通用验证码， 用于压力测试
-		if (!user.getVerification().equalsIgnoreCase("smarthse") && !user.getVerification().equalsIgnoreCase(vcode)) {
-			r.setCode(-1);
-			r.setMessage(Message.bundle.getString(Message.user_vcode_error));
-			return r;
-		}
-
+		ResponseData<String> r = new ResponseData<String>();		
 		Subject subject = SecurityUtils.getSubject();
 		// 1、收集实体/凭据信息
 		ShiroUsernamePasswordToken token = new ShiroUsernamePasswordToken(1);
@@ -63,15 +54,12 @@ public class LoginController {
 		String remember = WebUtils.getCleanParam(request, "remember");
 		try {
 			userManager.clearUserByNameCache(user.getUserName());
-
 			if (remember != null && remember.equalsIgnoreCase("1")) {
 				token.setRememberMe(true);
 			}
-
 			// 2、提交实体/凭据信息
 			subject.login(token);
 			ShiroPrincipal p = (ShiroPrincipal) subject.getPrincipal();
-
 			// 用户id， 登录用户所在行政区域，写入session
 			// 登录用户编号
 			request.getSession().setAttribute(Constant.ACCOUNT_SESSION_UID, p.getUser().getId());

@@ -10,29 +10,22 @@ import org.springframework.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
-import cn.smarthse.business.dao.system.ASysareaMapper;
-import cn.smarthse.business.model.system.ASysarea;
-import cn.smarthse.business.model.system.ASysareaExample;
+import cn.smarthse.business.dao.system.SysAreaStandardMapper;
+import cn.smarthse.business.model.system.SysAreaStandard;
+import cn.smarthse.business.model.system.SysAreaStandardExample;
 import cn.smarthse.business.service.ASystem.AreaService;
-import cn.smarthse.framework.generic.GenericDao;
-import cn.smarthse.framework.generic.GenericServiceImpl;
 import cn.smarthse.framework.model.JqGridData;
 import cn.smarthse.framework.model.JqGridParam;
 
 @Service
-public class AreaServiceImpl extends GenericServiceImpl<ASysarea> implements AreaService {
+public class AreaServiceImpl  implements AreaService {
 
 	@Resource
-	ASysareaMapper ASysareaMapper;
+	SysAreaStandardMapper SysAreaStandardMapper;
 
 	@Override
-	public GenericDao<ASysarea> getDao() {
-		return ASysareaMapper;
-	}
-
-	@Override
-	public List<ASysarea> getAll() {
-		return super.selectList();
+	public List<SysAreaStandard> getAll() {
+		return SysAreaStandardMapper.selectByExample(new SysAreaStandardExample());
 	}
 
 	/**
@@ -40,15 +33,15 @@ public class AreaServiceImpl extends GenericServiceImpl<ASysarea> implements Are
 	 * 
 	 */
 	@Override
-	public JqGridData<ASysarea> getAll(JqGridParam param) {
-		ASysareaExample e = new ASysareaExample();
+	public JqGridData<SysAreaStandard> getAll(JqGridParam param) {
+		SysAreaStandardExample e = new SysAreaStandardExample();
 		//ASysareaExample.Criteria c = e.createCriteria();
-		ASysareaMapper.selectByExample(e);
+		SysAreaStandardMapper.selectByExample(e);
 		if (!StringUtils.isEmpty(param.getSidx()))
 			e.setOrderByClause(param.getSidx() + " " + param.getSord());
 		PageHelper.startPage((int) param.getPage(), (int) param.getRows());
-		Page<ASysarea> list = (Page<ASysarea>) this.getAll();
-		JqGridData<ASysarea> data = new JqGridData<ASysarea>(list, param);
+		Page<SysAreaStandard> list = (Page<SysAreaStandard>) this.getAll();
+		JqGridData<SysAreaStandard> data = new JqGridData<SysAreaStandard>(list, param);
 		return data;
 	}
 

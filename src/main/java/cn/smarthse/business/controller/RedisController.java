@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.smarthse.business.model.system.ASysarea;
+import cn.smarthse.business.model.system.SysAreaStandard;
 import cn.smarthse.business.service.RedisClient;
 
 @Controller
@@ -19,9 +19,9 @@ public class RedisController {
 	@ResponseBody
 	public Object get()throws Exception{
 		String string = redisClient.get("5");
-		ASysarea player = null;
+		SysAreaStandard player = null;
 		//player = new ObjectMapper().readValue(string,Player.class);
-		player = redisClient.getObject("5",ASysarea.class);
+		player = redisClient.getObject("5",SysAreaStandard.class);
 		return player;
 	}
 
