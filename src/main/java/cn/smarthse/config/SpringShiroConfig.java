@@ -36,9 +36,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+
 import cn.smarthse.framework.security.DefaultModularRealmAuthenticator;
 import cn.smarthse.framework.security.HSEShiroFilterFactoryBean;
 import cn.smarthse.framework.security.HSEShiroSessionDao;
@@ -51,8 +51,6 @@ import cn.smarthse.framework.security.ShiroRealm;
  **/
 
 @Configuration
-// 引入redis属性文件
-@PropertySource("classpath:cfg/redis/redis.properties")
 @Import({ EhcacheConfig.class })
 @Order(1)
 public class SpringShiroConfig implements EnvironmentAware {

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import cn.smarthse.business.dao.mongo.LogDao;
+import cn.smarthse.business.dao.mongo.MongoLogDao;
 import cn.smarthse.business.dao.system.ASyslogMapper;
 import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.business.service.mongo.LogService;
@@ -22,7 +22,7 @@ import cn.smarthse.framework.model.JqGridData;
 public class LogServiceImpl extends GenericServiceImpl<ASyslog> implements LogService {
 
 	@Resource
-	LogDao LogDao;
+	MongoLogDao LogDao;
 
 	@Resource
 	ASyslogMapper ASyslogMapper;

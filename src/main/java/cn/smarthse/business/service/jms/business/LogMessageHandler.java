@@ -7,8 +7,8 @@ import javax.jms.ObjectMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.smarthse.business.dao.mongo.LogDao;
-import cn.smarthse.business.model.Log;
+import cn.smarthse.business.dao.system.ASyslogMapper;
+import cn.smarthse.business.model.system.ASyslog;
 
 /**
  * 日志处理器（更适合放在data层） 因为：
@@ -19,14 +19,14 @@ import cn.smarthse.business.model.Log;
 public class LogMessageHandler {
 
 	@Autowired
-	private LogDao logDao;
+	private ASyslogMapper logDao;
 
 	public void handle(Message message) {
 		System.out.println(logDao);
 		ObjectMessage objMsg = (ObjectMessage) message;
 		try {
-			Log log = (Log) objMsg.getObject();
-			//logDao.insertLog(log);// 将日志写入数据库
+			ASyslog log = (ASyslog) objMsg.getObject();
+			logDao.insertSelective(log);// 将日志写入数据库
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

@@ -28,6 +28,7 @@ $(function() {
 		rownumWidth : 60,// 序号列宽度
 		rowNum : 10,
 		rowList : [ 10, 20, 30 ],
+		//caption: "行政区域列表",
 		pager : pager_selector
 	});
 

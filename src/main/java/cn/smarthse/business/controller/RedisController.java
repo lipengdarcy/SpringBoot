@@ -11,25 +11,18 @@ import cn.smarthse.business.service.RedisClient;
 @Controller
 @RequestMapping("/redis")
 public class RedisController {
-	
+
 	@Autowired
 	private RedisClient redisClient;
-	
+
 	@RequestMapping("/get")
 	@ResponseBody
-	public Object get()throws Exception{
-		String string = redisClient.get("5");
-		SysAreaStandard player = null;
-		//player = new ObjectMapper().readValue(string,Player.class);
-		player = redisClient.getObject("5",SysAreaStandard.class);
-		return player;
+	public Object get() throws Exception {
+		SysAreaStandard a = new SysAreaStandard();
+		a.setName("name1");
+		redisClient.set("name1", a);
+		SysAreaStandard cacheValue = (SysAreaStandard) redisClient.get("name1");
+		return cacheValue;
 	}
 
-	
-	
 }
-
-
-
-
-

@@ -885,7 +885,7 @@ ul.ui-search-menu li, ul.ui-nav-menu li {
 }
 
 .ui-jqgrid .ui-jqgrid-htable .ui-th-div {
-	height:17px;
+	/* height:17px; */
 	margin-top:5px;
 	display:inine-block;
 }

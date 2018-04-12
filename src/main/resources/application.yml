@@ -49,8 +49,8 @@ spring:
       username: root
       password: 123456
 
-    url: jdbc:mysql://192.168.1.188:3306/HospitalAdmin
-    username: hd-dev
+    url: jdbc:mysql://localhost:3306/parter
+    username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -64,6 +64,9 @@ spring:
     prefix: /html/   
   #redis缓存配置
   redis:
+    #是否启用redis缓存服务
+    cacheable: false  
+    #redis单机节点 JedisConnectionFactory
     host: 127.0.0.1
     port: 6379
     pool:
@@ -71,6 +74,13 @@ spring:
       max-wait: 10
       min-idle: 1
       max-idle: 1
+    #redis集群节点：RedisNode
+    cluster: 
+      #是否启用redis集群
+      clusterable: false
+      nodes: 127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003
+      timeout: 2000
+      max-redirects: 8
 
 #mybatis配置：dao层接口路径+sql文件mapper
 mybatis:
