@@ -5,7 +5,10 @@ server:
 #日志配置
 logging:
   level: 
-    learning: debug
+    root: info
+    cn.smarthse.business.service: debug
+    cn.smarthse.business.dao: debug
+  file: log/SpringBoot.log
 
 spring:
   #mongodb配置

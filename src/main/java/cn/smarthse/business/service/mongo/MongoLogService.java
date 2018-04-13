@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.framework.model.JqGridData;
 
-public interface LogService {
+public interface MongoLogService {
 
 	List<ASyslog> getAllFromMysql();
 

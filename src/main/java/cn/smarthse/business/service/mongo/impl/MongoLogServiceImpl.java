@@ -1,4 +1,4 @@
-package cn.smarthse.business.service.impl;
+package cn.smarthse.business.service.mongo.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import cn.smarthse.business.dao.mongo.MongoLogDao;
 import cn.smarthse.business.dao.system.ASyslogMapper;
 import cn.smarthse.business.model.system.ASyslog;
-import cn.smarthse.business.service.mongo.LogService;
+import cn.smarthse.business.service.mongo.MongoLogService;
 import cn.smarthse.framework.generic.GenericDao;
 import cn.smarthse.framework.generic.GenericServiceImpl;
 import cn.smarthse.framework.model.JqGridData;
 
 @Service
-public class LogServiceImpl extends GenericServiceImpl<ASyslog> implements LogService {
+public class MongoLogServiceImpl extends GenericServiceImpl<ASyslog> implements MongoLogService {
 
 	@Resource
 	MongoLogDao LogDao;

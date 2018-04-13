@@ -9,6 +9,6 @@ import cn.smarthse.business.model.system.SysAreaStandard;
  */
 
 
-public interface AreaDao extends MongoRepository<SysAreaStandard, String> {
+public interface MongoAreaDao extends MongoRepository<SysAreaStandard, String> {
 
 }

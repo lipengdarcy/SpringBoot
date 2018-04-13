@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.business.model.system.SysAreaStandard;
 import cn.smarthse.business.service.ASystem.AreaService;
-import cn.smarthse.business.service.mongo.LogService;
+import cn.smarthse.business.service.mongo.MongoLogService;
 import cn.smarthse.business.service.mongo.MongoService;
 import cn.smarthse.framework.model.JqGridData;
 import cn.smarthse.framework.model.JqGridParam;
@@ -29,7 +29,7 @@ public class MongoController {
 	private MongoService MongoService;
 
 	@Autowired
-	private LogService LogService;
+	private MongoLogService LogService;
 
 	@RequestMapping()
 	public String init(ModelMap m) {
@@ -56,22 +56,15 @@ public class MongoController {
 		return data;
 	}
 
-	/**
-	 * mysql导入mongo系统日志
-	 */
-	@RequestMapping("importLog")
-	@ResponseBody
-	public String importLog(ModelMap m) {
-		List<ASyslog> list = LogService.getAllFromMysql();
-		// LogService.addList(list);
-		return "mysql日志导入mongo成功，导入记录数：" + list.size();
-	}
 
+	/**
+	 * mysql导入mongo 行政区域数据
+	 */
 	@RequestMapping("import")
 	@ResponseBody
 	public String inportFromMysql(ModelMap m) {
 		List<SysAreaStandard> list = AreaService.getAll();
-		// MongoService.addList(list);
+		//MongoService.addList(list);
 		return "mysql数据导入mongo成功，导入记录数：" + list.size();
 	}
 

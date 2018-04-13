@@ -11,6 +11,9 @@ import cn.smarthse.business.service.ASystem.AreaService;
 import cn.smarthse.framework.model.JqGridData;
 import cn.smarthse.framework.model.JqGridParam;
 
+/**
+ * 行政区域
+ */
 @Controller
 @RequestMapping("/area")
 public class AreaController {

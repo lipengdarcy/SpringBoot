@@ -6,9 +6,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.smarthse.business.model.system.ASyslog;
 import cn.smarthse.business.service.jms.BusinessObject;
 import cn.smarthse.business.service.jms.JmsMessageConsumer;
 import cn.smarthse.business.service.jms.JmsMessageProducer;
+import cn.smarthse.business.service.jms.business.LogMessageProducer;
 
 @Controller
 @RequestMapping("/")
@@ -19,6 +21,9 @@ public class HomeController {
 
 	@Autowired
 	private JmsMessageConsumer JmsMessageConsumer;
+
+	@Autowired
+	private LogMessageProducer LogMessageProducer;
 
 	/**
 	 * 首页
@@ -34,6 +39,18 @@ public class HomeController {
 	@RequestMapping("blank")
 	public String blank(ModelMap m) {
 		return "common/blank";
+	}
+
+	/**
+	 * 消息队列测试
+	 */
+	@ResponseBody
+	@RequestMapping("activeMQTest")
+	public String activeMQTest(ModelMap map) {
+		ASyslog m = new ASyslog();
+		m.setDescription("测试日志消息");
+		LogMessageProducer.sendMessages(m);
+		return "sent";
 	}
 
 	@ResponseBody

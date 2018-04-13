@@ -4,40 +4,32 @@ $(function($) {
 
 	$(grid_selector).jqGrid(
 			{
-				url : home_url + '/security/user/listData',
-				// 编辑url
-				editurl : home_url + '/security/user/update',
+				url : home_url + '/user/listData',
+				editurl : home_url + '/user/update',
 				datatype : "json",
 				width : 'auto',
 				autowidth : true,// 宽度自适应
 				height : 'auto',// 高度自适应
 				autoheight : true,// 高度自适应
-				colNames : [ '是否管理员', '员工', '姓名', '账号', '是否可用', '密码' ],
+				colNames : [ '姓名', '账号', '是否可用', '操作' ],
 				colModel : [ {
-					name : 'isAdmin',
-					hidden : true,
+					name : 'realName',
 				}, {
-					name : 'staff.id',
-					hidden : true,
+					name : 'userName'
 				}, {
-					name : 'fullname',
-					formatter : function(cellvalue, options, rowObject) {
-						if (cellvalue)
-							return cellvalue;
-						return "";
-					}
-				}, {
-					name : 'username'
-				}, {
-					name : 'isvalid',
+					name : 'isValid',
 					formatter : function(cellvalue, options, rowObject) {
 						if (cellvalue == '1')
 							return '是';
 						return '否';
 					}
 				}, {
-					name : 'plainpassword',
-					hidden : true
+					name : 'id',
+					formatter : function(cellvalue, options, rowObject) {
+						if (cellvalue == undefined)
+							return "";
+						return getOperateColumn(cellvalue);
+					}
 				} ],
 				viewrecords : true,
 				rowNum : 10,
@@ -45,35 +37,17 @@ $(function($) {
 				pager : pager_selector,
 				rownumbers : true,
 				multiselect : true,
-				onSelectRow : function(id)// 选择某行时触发事件
-				{
-					var curRowData = $(grid_selector).jqGrid('getRowData', id);
-					if (curRowData.isAdmin == 'true') {
-						$(grid_selector).jqGrid("setSelection", id, false);
-						$.jGrowl("该账号是注册管理员，不能编辑， 不能删除!");
-					}
-
-				},
-				onSelectAll : function(rowid, status) { // 点击全选时触发事件
-					var rowIds = $(grid_selector).jqGrid('getDataIDs'); // 获取jqgrid中所有数据行的id
-					for (var k = 0; k < rowIds.length; k++) {
-						var curRowData = $(grid_selector).jqGrid('getRowData',
-								rowIds[k]);// 获取指定id所在行的所有数据.
-						if (curRowData.isAdmin == 'true') {
-							$(grid_selector).jqGrid("setSelection", rowIds[k], false);
-						}
-					}
-				},
-				gridComplete: function(){//加载完毕后获取所有的checkbox遍历
-					var rowIds = $(grid_selector).jqGrid('getDataIDs'); 
+				gridComplete : function() {//加载完毕后获取所有的checkbox遍历
+					var rowIds = $(grid_selector).jqGrid('getDataIDs');
 					for (var k = 0; k < rowIds.length; k++) {
 						var curRowData = $(grid_selector).jqGrid('getRowData',
 								rowIds[k]);
 						if (curRowData.isAdmin == 'true') {
-							$('#'+rowIds[k]).find("input[type='checkbox']").attr('disabled', 'disabled');
+							$('#' + rowIds[k]).find("input[type='checkbox']")
+									.attr('disabled', 'disabled');
 						}
-					}		           
-		        },
+					}
+				},
 				autowidth : true
 			});
 
@@ -88,47 +62,55 @@ $(function($) {
 	});
 });
 
-// 人员单选
-function selectStaff() {
-	SelectStaff_Single(function(data) {
-		$("#staffList li").remove();
-		$("#staffList").append(dataNodeSelected(data.id, data.name));
-		$('#userEditDialog input[name=manager').val(data.id);
-	});
-}
-
-// 判断用户是否已存在
-function checkUser(uid) {
-	$.ajax({
-		url : home_url + '/security/user/checkUser',
-		data : {
-			uid : uid
-		},
-		type : 'post',
-		dataType : 'json',
-		success : function(data) {
-			if (data.data > 0)
-				return false;
-		},
-		error : function() {
-			$.jGrowl("异常！请重新尝试或者联系管理员!");
-		}
-	});
-}
-
 // 新增、编辑用户
 function edit(id) {
+	var title = '';
 	if (id > 0) {
 		var rowId = $("#grid_table").jqGrid('getGridParam', 'selrow');
 		if (!rowId) {
 			$.jGrowl("请选择要编辑的用户");
 			return;
 		} else {
-			location.href = home_url + '/security/user/edit/' + rowId;
+			title='编辑用户';
 		}
 	} else {
-		location.href = home_url + '/security/user/add';
+		title='新增用户';
 	}
+	
+	var myDialog = dialog({
+		title : title,
+		height : 'auto',
+		width : 500,
+		okValue : '确定',
+		ok : function() {
+			$.ajax({
+				url : home_url + '/security/user/update',
+				data : {
+					'idlist' : rowId,
+					'oper' : 'batchdel'
+				},
+				type : 'post',
+				dataType : 'json',
+				success : function(data) {
+					$.jGrowl(data.message);
+					if (data.code < 0)
+						return false;
+					$("#grid_table").jqGrid().trigger("reloadGrid");
+				}
+			});
+		},
+		cancelValue : '取消',
+		cancel : function() {
+		}
+	});
+	$.ajax({
+		url : home_url + '/user/edit/'+id,
+		success : function(data) {
+			myDialog.content(data);
+			myDialog.showModal();
+		}
+	});
+	
 }
 
 function validateForm() {
@@ -157,29 +139,27 @@ function validateForm() {
 // 查询用户
 function query() {
 
-	var myDialog = dialog({
-		title : '查询用户',
-		content : $('#userQueryDialog'),
-		height : 'auto',
-		width : 500,
-		okValue : '确定',
-		ok : function() {
+	var data = {
+		'name' : $('#name').val()
+	};
+	var postData = $("#grid_table").jqGrid("getGridParam", "postData");
+	$.extend(postData, data);
+	$("#grid_table").jqGrid('setGridParam').trigger("reloadGrid");
+}
 
-			var data = {
-				'username' : $('#userQueryDialog input[name=username').val(),
-				'fullname' : $('#userQueryDialog input[name=fullname').val()
-			};
-			var postData = $("#grid_table").jqGrid("getGridParam", "postData");
-			// 将查询参数融入postData选项对象
-			$.extend(postData, data);
-			$("#grid_table").jqGrid('setGridParam').trigger("reloadGrid");
+//操作栏转义
+function getOperateColumn(id) {
+	if (id === undefined)
+		return '';
+	var edit = '<a href="javascript:edit('
+			+ id
+			+ ');" class="ui-pg-div a-redact" data-original-title="编辑" title=""><i class="ui-icon icon-pencil green"></i></a>';
+	var del = '<a href="javascript:del('
+			+ id
+			+ ');" class="ui-pg-div" data-rel="tooltip" data-original-title="删除"><i class="ui-icon icon-trash red"></i></a>';
 
-		},
-		cancelValue : '取消',
-		cancel : function() {
-		}
-	});
-	myDialog.showModal();
+	//var rowData = $("#grid_table").jqGrid('getRowData', id);
+	return edit + del;
 }
 
 // 删除用户

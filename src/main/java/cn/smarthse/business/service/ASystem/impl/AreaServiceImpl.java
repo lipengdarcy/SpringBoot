@@ -1,4 +1,4 @@
-package cn.smarthse.business.service.impl.ASystem;
+package cn.smarthse.business.service.ASystem.impl;
 
 import java.util.List;
 

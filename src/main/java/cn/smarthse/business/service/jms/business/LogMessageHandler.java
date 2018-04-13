@@ -4,6 +4,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +19,14 @@ import cn.smarthse.business.model.system.ASyslog;
  */
 @Component
 public class LogMessageHandler {
+	
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private ASyslogMapper logDao;
 
 	public void handle(Message message) {
-		System.out.println(logDao);
+		log.debug("接收业务对象消息：" + message.toString());
 		ObjectMessage objMsg = (ObjectMessage) message;
 		try {
 			ASyslog log = (ASyslog) objMsg.getObject();

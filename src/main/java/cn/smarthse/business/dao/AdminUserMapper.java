@@ -15,28 +15,8 @@ public interface AdminUserMapper extends GenericDao<AdminUser> {
 	 * 
 	 * @param name
 	 *            用户名或者姓名
-	 * @param areaId
-	 *            行政区域id
-	 * @param level
-	 *            行政区域级别
 	 */
-	List<AdminUser> query(@Param("name") String name, @Param("areaId") Long areaId, @Param("level") Byte level);
-
-
-	/**
-	 * 查询用户列表以及区域
-	 * 
-	 * @param areaId
-	 *            行政区域id
-	 */
-	List<AdminUser> selectUserAndAreaByAreaid(@Param("areaId") Long areaId);
-	/**
-	 * 查询用户列表以及区域
-	 * 
-	 * @param id
-	 *            用户id
-	 */
-	List<AdminUser> selectUserAndAreaById(@Param("id") int id);
+	List<AdminUser> query(@Param("name") String name);	
 
 	int countByExample(AdminUserExample example);
 
