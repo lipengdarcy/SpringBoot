@@ -9,6 +9,7 @@ import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.util.CollectionUtils;
 
+import cn.smarthse.framework.enumtype.LoginType;
 import cn.smarthse.framework.security.ShiroUsernamePasswordToken;
 
 import java.util.Collection;
@@ -62,7 +63,7 @@ public class DefaultModularRealmAuthenticator extends ModularRealmAuthenticator 
 		Realm realm = null;
 		ShiroUsernamePasswordToken token = (ShiroUsernamePasswordToken) authenticationToken;
 		// 判断是否是后台用户
-		if (token.getUserType().equals("admin")) {
+		if (LoginType.ADMIN.name().equals(token.getUserType())) {
 			realm = (Realm) this.definedRealms.get("adminShiroRealm");
 		} else {
 			realm = (Realm) this.definedRealms.get("shiroRealm");

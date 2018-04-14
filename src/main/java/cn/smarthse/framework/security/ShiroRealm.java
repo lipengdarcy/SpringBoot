@@ -1,9 +1,6 @@
 package cn.smarthse.framework.security;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +16,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+
 import cn.smarthse.business.model.AdminUser;
 import cn.smarthse.business.service.security.UserManager;
 import cn.smarthse.framework.Message;

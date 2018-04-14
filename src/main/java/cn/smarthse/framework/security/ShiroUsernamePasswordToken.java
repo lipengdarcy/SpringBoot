@@ -12,14 +12,7 @@ public class ShiroUsernamePasswordToken extends UsernamePasswordToken {
 	
 	//用户类型， 1：医院端用户； 2：监管端用户
 	private String userType;
-	
-	//登录类型
-	//0-单点登录（通过token处理）
-	//1-用户名+密码登录
-	//2-用户名+密码+图形验证码登录
-	//3-用户名+动态验证码
-	//4-第三方
-	//5-企业号登录（20161031添加BYSHAO）
+
 	private int loginType = 1;
 	
 	//图形验证码

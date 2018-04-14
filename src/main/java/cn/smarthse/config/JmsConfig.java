@@ -19,11 +19,14 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 import cn.smarthse.business.service.jms.JmsMessageListener;
 
-@Configuration
-@EnableJms
+//@Configuration
+//@EnableJms
 public class JmsConfig implements JmsListenerConfigurer {
 
 	private final Log log = LogFactory.getLog(getClass());
+
+	@Value("${jms.enable}")
+	private Boolean enable;
 
 	@Value("${jms.url}")
 	private String url;
@@ -38,20 +41,26 @@ public class JmsConfig implements JmsListenerConfigurer {
 	private JmsMessageListener jmsMessageListener;
 
 	// 1. <!-- 配置连接ActiveMQ的ConnectionFactory -->
-	// @Bean("activeMQConnectionFactory")
+	@Bean("activeMQConnectionFactory")
 	public ActiveMQConnectionFactory activeMQConnectionFactory() {
-		ActiveMQConnectionFactory a = new ActiveMQConnectionFactory();
-		a.setBrokerURL(url);
-		a.setTrustAllPackages(true); // 所有序列化的对象都可以进入mq
-		log.info("JMS step1： 配置连接ActiveMQ的ConnectionFactory: " + url);
-		return a;
+		if (enable) {
+			ActiveMQConnectionFactory a = new ActiveMQConnectionFactory();
+			a.setBrokerURL(url);
+			a.setTrustAllPackages(true); // 所有序列化的对象都可以进入mq
+			log.info("JMS step1： 配置连接ActiveMQ的ConnectionFactory: " + url);
+			return a;
+		}
+		return null;
 	}
 
 	// 2. <!--为了提高效率，配置一个连接池-->
 	@Bean("cachingConnectionFactory")
 	public CachingConnectionFactory cachingConnectionFactory() {
+		ActiveMQConnectionFactory factory = activeMQConnectionFactory();
+		if (factory == null)
+			return null;
 		CachingConnectionFactory a = new CachingConnectionFactory();
-		a.setTargetConnectionFactory(activeMQConnectionFactory());
+		a.setTargetConnectionFactory(factory);
 		a.setSessionCacheSize(10);
 		log.info("JMS step2： ConnectionFactory的连接池 ");
 		return a;
@@ -75,8 +84,12 @@ public class JmsConfig implements JmsListenerConfigurer {
 
 	// 4. <!-- 配置Spring的JmsTemplate -->
 	@Bean
-	public JmsTemplate jmsTemplate(CachingConnectionFactory cachedConnectionFactory, ActiveMQQueue destination) {
+	public JmsTemplate jmsTemplate(ActiveMQQueue destination) {
 		JmsTemplate a = new JmsTemplate();
+		CachingConnectionFactory cachedConnectionFactory = cachingConnectionFactory();
+		if (cachedConnectionFactory == null)
+			return a;
+		
 		a.setConnectionFactory(cachedConnectionFactory);
 		a.setDefaultDestination(destination);
 		log.info("JMS step4： 配置Spring的JmsTemplate");
@@ -85,8 +98,7 @@ public class JmsConfig implements JmsListenerConfigurer {
 
 	// 5. <!-- 配置Spring的JmsMessageListener -->
 	@Bean
-	public JmsMessageListener jmsMessageListener(CachingConnectionFactory cachedConnectionFactory,
-			ActiveMQQueue destination) {
+	public JmsMessageListener jmsMessageListener() {
 		JmsMessageListener a = new JmsMessageListener();
 		log.info("JMS step5： 配置Spring的JmsMessageListener");
 		return a;
@@ -94,8 +106,11 @@ public class JmsConfig implements JmsListenerConfigurer {
 
 	// 6. <!-- 配置listener到listener-container当中 -->
 	@Bean
-	public DefaultMessageListenerContainer defaultMessageListenerContainer(
-			CachingConnectionFactory cachedConnectionFactory, ActiveMQQueue destination, JmsMessageListener listener) {
+	public DefaultMessageListenerContainer defaultMessageListenerContainer(ActiveMQQueue destination,
+			JmsMessageListener listener) {
+		CachingConnectionFactory cachedConnectionFactory = cachingConnectionFactory();
+		if (cachedConnectionFactory == null)
+			return null;
 		DefaultMessageListenerContainer a = new DefaultMessageListenerContainer();
 		a.setConnectionFactory(cachedConnectionFactory);
 		a.setDestination(destination);

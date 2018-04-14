@@ -18,8 +18,8 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+
 import cn.smarthse.framework.Constant;
 import cn.smarthse.framework.cache.FastJson2JsonRedisSerializer;
 import cn.smarthse.framework.cache.HSERedisCacheManager;

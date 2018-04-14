@@ -33,8 +33,8 @@ public class MongoController {
 
 	@RequestMapping()
 	public String init(ModelMap m) {
-		List<SysAreaStandard> areaList = MongoService.getAllArea();
-		m.put("areaList", areaList);
+		//List<SysAreaStandard> areaList = MongoService.getAllArea();
+		//m.put("areaList", areaList);
 		return "Mongo/mongoList";
 	}
 
@@ -56,6 +56,23 @@ public class MongoController {
 		return data;
 	}
 
+	/**
+	 * 行政区域页面
+	 */
+	@RequestMapping("areaList")
+	public String areaList(ModelMap m) {
+		return "Mongo/areaList";
+	}
+
+	/**
+	 * 行政区域数据
+	 */
+	@ResponseBody
+	@RequestMapping("areaData")
+	public JqGridData<SysAreaStandard> areaData(JqGridParam param) {
+		JqGridData<SysAreaStandard> data = MongoService.getGridData(param);
+		return data;
+	}
 
 	/**
 	 * mysql导入mongo 行政区域数据
@@ -64,7 +81,7 @@ public class MongoController {
 	@ResponseBody
 	public String inportFromMysql(ModelMap m) {
 		List<SysAreaStandard> list = AreaService.getAll();
-		//MongoService.addList(list);
+		// MongoService.addList(list);
 		return "mysql数据导入mongo成功，导入记录数：" + list.size();
 	}
 

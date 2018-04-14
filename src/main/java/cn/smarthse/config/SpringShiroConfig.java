@@ -69,7 +69,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	@Bean(name = "shirocacheManager")
 	@DependsOn({ "HSECacheManager" })
 	public CacheManager shirocacheManager(net.sf.ehcache.CacheManager manager) {
-		log.debug("1. Shiro 缓存管理器");
+		log.info("1. Shiro 缓存管理器");
 		EhCacheManager a = new EhCacheManager();
 		a.setCacheManager(manager);
 		return a;
@@ -78,7 +78,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 凭证匹配器
 	@Bean(name = "credentialsMatcher")
 	public CredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
-		log.debug("2. Shiro 凭证匹配器");
+		log.info("2. Shiro 凭证匹配器");
 		ShiroAuthorizingCredentialsMatcher a = new ShiroAuthorizingCredentialsMatcher(cacheManager);
 		a.setHashAlgorithmName("SHA-1");
 		a.setHashIterations(1024);
@@ -90,7 +90,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 医院端认证授权域
 	@Bean(name = "shiroRealm")
 	public ShiroRealm shiroRealm(CredentialsMatcher cm) {
-		log.debug("3.1 ShiroRealm 医院端认证授权域 ");
+		log.info("3.1 ShiroRealm 医院端认证授权域 ");
 		ShiroRealm a = new ShiroRealm();
 		a.setCredentialsMatcher(cm);
 		// a.setCachingEnabled(false);
@@ -98,9 +98,9 @@ public class SpringShiroConfig implements EnvironmentAware {
 	}
 
 	// 监管端认证授权域
-	@Bean(name = "adminShiroRealm")
-	public ShiroRealm adminShiroRealm(CredentialsMatcher cm) {
-		log.info("3.2 AdminShiroRealm 监管端认证授权域");
+	@Bean(name = "businessShiroRealm")
+	public ShiroRealm businessShiroRealm(CredentialsMatcher cm) {
+		log.info("3.2 ShiroRealm 用户认证授权域");
 		ShiroRealm a = new ShiroRealm();
 		a.setCredentialsMatcher(cm);
 		return a;
@@ -108,17 +108,17 @@ public class SpringShiroConfig implements EnvironmentAware {
 
 	// 多个realm的认证
 	@Bean(name = "modularRealmAuthenticator")
-	public ModularRealmAuthenticator modularRealmAuthenticator(ShiroRealm shiroRealm, ShiroRealm adminShiroRealm) {
-		log.debug("3.3. Shiro Authenticator： 多个realm的认证");
+	public ModularRealmAuthenticator modularRealmAuthenticator(ShiroRealm shiroRealm) {
+		log.info("3.3. Shiro Authenticator： 多个realm的认证");
 		DefaultModularRealmAuthenticator a = new DefaultModularRealmAuthenticator();
 		// a.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
 		Collection<Realm> realms = new ArrayList<Realm>();
 		realms.add(shiroRealm);
-		realms.add(adminShiroRealm);
+		//realms.add(adminShiroRealm);
 		a.setRealms(realms);
 		Map<String, Object> definedRealms = new HashMap<String, Object>();
 		definedRealms.put("shiroRealm", shiroRealm);
-		definedRealms.put("adminShiroRealm", adminShiroRealm);
+		//definedRealms.put("adminShiroRealm", adminShiroRealm);
 		a.setDefinedRealms(definedRealms);
 		a.setAuthenticationStrategy(new FirstSuccessfulStrategy());
 		return a;
@@ -127,7 +127,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 多个realm的授权
 	@Bean(name = "modularRealmAuthorizer")
 	public ModularRealmAuthorizer modularRealmAuthorizer(ShiroRealm shiroRealm) {
-		log.debug("3.4 Shiro Authorizer： 多个realm的授权");
+		log.info("3.4 Shiro Authorizer： 多个realm的授权");
 		ModularRealmAuthorizer a = new ModularRealmAuthorizer();
 		Collection<Realm> realms = new ArrayList<Realm>();
 		realms.add(shiroRealm);
@@ -139,7 +139,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 会话ID生成器
 	@Bean(name = "sessionIdGenerator")
 	public SessionIdGenerator sessionIdGenerator() {
-		log.debug("4. Shiro 会话ID生成器 ");
+		log.info("4. Shiro 会话ID生成器 ");
 		JavaUuidSessionIdGenerator a = new JavaUuidSessionIdGenerator();
 		return a;
 	}
@@ -147,7 +147,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 会话Cookie模板
 	@Bean(name = "sessionIdCookie")
 	public Cookie sessionIdCookie() {
-		log.debug("5. Shiro 会话Cookie模板 ");
+		log.info("5. Shiro 会话Cookie模板 ");
 		SimpleCookie a = new SimpleCookie();
 		a.setName("sessionIdCookie-HSE");
 		a.setHttpOnly(true);
@@ -158,7 +158,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	// 记住密码Cookie模板
 	@Bean(name = "rememberMeCookie")
 	public Cookie rememberMeCookie() {
-		log.debug("6. Shiro 记住密码Cookie模板 ");
+		log.info("6. Shiro 记住密码Cookie模板 ");
 		SimpleCookie a = new SimpleCookie();
 		a.setName("rememberMeCookie-HSE");
 		a.setHttpOnly(true);
@@ -170,7 +170,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	@Bean(name = "rememberMeManager")
 	@DependsOn({ "rememberMeCookie" })
 	public RememberMeManager rememberMeManager(Cookie rememberMeCookie) {
-		log.debug("7. Shiro 记住密码管理器");
+		log.info("7. Shiro 记住密码管理器");
 		CookieRememberMeManager a = new CookieRememberMeManager();
 		byte[] key = org.apache.shiro.codec.Base64.decode("4AvVhmFLUs0KTA3Kprsdag==");
 		a.setCipherKey(key);
@@ -182,7 +182,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	@Bean(name = "sessionDAO")
 	@DependsOn({ "sessionIdGenerator" })
 	public SessionDAO sessionDAO(SessionIdGenerator sessionIdGenerator) {
-		log.debug("8. Shiro 会话DAO");
+		log.info("8. Shiro 会话DAO");
 		HSEShiroSessionDao a = new HSEShiroSessionDao();
 		a.setActiveSessionsCacheName("shiro-activeSessionCache");
 		a.setSessionIdGenerator(sessionIdGenerator);
@@ -190,20 +190,10 @@ public class SpringShiroConfig implements EnvironmentAware {
 		return a;
 	}
 
-	/*
-	 * <!-- 会话管理器 --> Shiro提供了三个默认实现：<br>
-	 * DefaultSessionManager：DefaultSecurityManager使用的默认实现，用于JavaSE环境； --> <!--
-	 * ServletContainerSessionManager
-	 * ：DefaultWebSecurityManager使用的默认实现，用于Web环境，其直接使用Servlet容器的会话； --> <!--
-	 * DefaultWebSessionManager
-	 * ：用于Web环境的实现，可以替代ServletContainerSessionManager，自己维护着会话 ，直接废弃了Servlet容器的会话管理。
-	 * -->
-	 */
-
 	@Bean(name = "sessionManager")
 	@DependsOn({ "sessionIdCookie" })
 	public SessionManager sessionManager(Cookie sessionIdCookie, SessionDAO sessionDAO) {
-		log.debug("9. Shiro sessionManager 会话管理器");
+		log.info("9. Shiro sessionManager 会话管理器");
 		DefaultWebSessionManager a = new DefaultWebSessionManager();
 		a.setGlobalSessionTimeout(3600000);
 		a.setDeleteInvalidSessions(true);
@@ -218,7 +208,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	@DependsOn({ "shiroRealm", "sessionManager", "shirocacheManager", "rememberMeManager" })
 	public org.apache.shiro.mgt.SecurityManager securityManager(ModularRealmAuthenticator authenticator,
 			ModularRealmAuthorizer authorizer, SessionManager b, CacheManager c, RememberMeManager d) {
-		log.debug("10. Shiro securityManager 安全管理器");
+		log.info("10. Shiro securityManager 安全管理器");
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		manager.setAuthenticator(authenticator); // 认证器
 		manager.setAuthorizer(authorizer);// 授权器
@@ -231,7 +221,7 @@ public class SpringShiroConfig implements EnvironmentAware {
 	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shiroFilter(org.apache.shiro.mgt.SecurityManager sm, SessionDAO dao) {
 
-		log.debug("11. Shiro shiroFilter");
+		log.info("11. Shiro shiroFilter");
 		HSEShiroFilterFactoryBean a = new HSEShiroFilterFactoryBean();
 		a.setSecurityManager(sm);
 		// 配置我们的登录请求地址

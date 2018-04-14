@@ -48,7 +48,6 @@ public class LoginController {
 		Subject subject = SecurityUtils.getSubject();
 		// 1、收集实体/凭据信息
 		ShiroUsernamePasswordToken token = new ShiroUsernamePasswordToken(1);
-		token.setUserType("admin");
 		token.setUsername(user.getUserName());
 		token.setPassword(user.getPassWord() != null ? user.getPassWord().toCharArray() : null);
 		String remember = WebUtils.getCleanParam(request, "remember");
