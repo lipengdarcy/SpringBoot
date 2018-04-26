@@ -5302,6 +5302,7 @@ java.lang.ClassCastException: cn.smarthse.business.service.jms.BusinessObject ca
 	at org.springframework.jms.listener.DefaultMessageListenerContainer$AsyncMessageListenerInvoker.run(DefaultMessageListenerContainer.java:1055) [spring-jms-4.3.13.RELEASE.jar:4.3.13.RELEASE]
 	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_144]
 
+<<<<<<< HEAD
 2018-04-18 14:30:05.859  INFO 20080 --- [main] cn.smarthse.AppStart                     : Starting AppStart on LIPENG with PID 20080 (D:\Project\SpringBoot\target\classes started by darcy in D:\Project\SpringBoot)
 2018-04-18 14:30:05.863  INFO 20080 --- [main] cn.smarthse.AppStart                     : No active profile set, falling back to default profiles: default
 2018-04-18 14:30:05.930  INFO 20080 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4961f6af: startup date [Wed Apr 18 14:30:05 CST 2018]; root of context hierarchy
@@ -15335,3 +15336,5 @@ Caused by: java.net.ConnectException: Connection refused: connect
 2018-04-26 09:23:17.383 DEBUG 22868 --- [http-nio-8082-exec-7] c.s.b.d.AdminUserMapper.selectByExample  : ==>  Preparing: select ID, area_id, user_name, pass_word, salt, real_name, gender, dept, job_title, tel, role, create_time, update_time, user_icon, is_valid from admin_user WHERE ( user_name = ? and is_valid = ? ) 
 2018-04-26 09:23:17.411 DEBUG 22868 --- [http-nio-8082-exec-7] c.s.b.d.AdminUserMapper.selectByExample  : ==> Parameters: admin(String), 1(Byte)
 2018-04-26 09:23:17.466 DEBUG 22868 --- [http-nio-8082-exec-7] c.s.b.d.AdminUserMapper.selectByExample  : <==      Total: 1
+=======
+>>>>>>> branch 'master' of https://github.com/lipengdarcy/SpringBoot.git
