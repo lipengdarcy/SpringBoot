@@ -1,6 +1,6 @@
 #tomcat端口配置
 server:
-  port: 8082
+  port: 7777
 
 #日志配置
 logging:
@@ -10,7 +10,21 @@ logging:
     cn.smarthse.business.dao: debug
   file: log/SpringBoot.log
 
-spring:
+spring:  
+  data:
+    #mongodb配置
+    mongodb:
+      host: 192.168.1.111
+      port: 27017
+      database: test 
+    #elasticsearch配置
+    elasticsearch: 
+      #cluster-name: #默认为elasticsearch
+      #cluster-nodes: 127.0.0.1: #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+      properties: 
+        path:
+          logs: ./elasticsearch/log #elasticsearch日志存储目录
+          data: ./elasticsearch/data #elasticsearch数据存储目录
   #Dubbo 服务提供者配置
   dubbo:
     application: SpringBoot-provider    #提供方服务名称
@@ -20,12 +34,6 @@ spring:
       name: dubbo     #dubbo 协议
       port: 20886
     scan: cn.smarthse.business.service.dubbo #声明需要暴露的服务接口
-  #mongodb配置
-  data:
-    mongodb:
-      host: 192.168.1.111
-      port: 27017
-      database: test
   #数据源配置（多数据源）
   datasource:
     use-global-data-source-stat: true
@@ -61,8 +69,8 @@ spring:
       username: root
       password: 123456
 
-    url: jdbc:mysql://localhost:3306/parter
-    username: root
+    url: jdbc:mysql://192.168.1.188:3306/thirdparty
+    username: hd-dev
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource

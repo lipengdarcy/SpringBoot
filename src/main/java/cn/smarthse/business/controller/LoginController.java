@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.smarthse.business.model.AdminUser;
+import cn.smarthse.business.model.system.SysUser;
 import cn.smarthse.business.service.security.UserManager;
 import cn.smarthse.framework.Constant;
 import cn.smarthse.framework.Message;
@@ -42,7 +42,7 @@ public class LoginController {
 
 	@ResponseBody
 	@RequestMapping(value = "/security/login", method = RequestMethod.POST)
-	public ResponseData<String> login(AdminUser user, Model model, HttpServletRequest request,
+	public ResponseData<String> login(SysUser user, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		ResponseData<String> r = new ResponseData<String>();		
 		Subject subject = SecurityUtils.getSubject();
@@ -61,15 +61,9 @@ public class LoginController {
 			ShiroPrincipal p = (ShiroPrincipal) subject.getPrincipal();
 			// 用户id， 登录用户所在行政区域，写入session
 			// 登录用户编号
-			request.getSession().setAttribute(Constant.ACCOUNT_SESSION_UID, p.getUser().getId());
-			// 登录用户所在行政区域id
-			request.getSession().setAttribute(Constant.areaId, p.getUser().getAreaId());
-			// 登录用户所在行政区域名称
-			request.getSession().setAttribute(Constant.areaName, p.getUser().getAreaName());
+			request.getSession().setAttribute(Constant.ACCOUNT_SESSION_UID, p.getUser().getId());			
 			// 登入用户名称
 			request.getSession().setAttribute(Constant.ACCOUNT_SESSION_UNAME, p.getUser().getRealName());
-			// 登入用户头像
-			request.getSession().setAttribute(Constant.ACCOUNT_USER_ICON, p.getUser().getUserIconUrl());
 			return r;
 		} catch (UnknownAccountException ue) {
 			ue.printStackTrace();

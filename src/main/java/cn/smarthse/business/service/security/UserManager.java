@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
-import cn.smarthse.business.dao.AdminUserMapper;
-import cn.smarthse.business.model.AdminUser;
-import cn.smarthse.business.model.AdminUserExample;
+import cn.smarthse.business.dao.system.SysUserMapper;
+import cn.smarthse.business.model.system.SysUser;
+import cn.smarthse.business.model.system.SysUserExample;
 import cn.smarthse.framework.Constant;
 import cn.smarthse.framework.model.JqGridData;
 import cn.smarthse.framework.model.JqGridParam;
@@ -34,7 +34,7 @@ import cn.smarthse.framework.util.Encodes;
 public class UserManager {
 
 	@Resource
-	AdminUserMapper userMapper;
+	SysUserMapper userMapper;
 
 	public static final String HASH_ALGORITHM = "SHA-1";
 	public static final int HASH_INTERATIONS = 1024;
@@ -48,10 +48,10 @@ public class UserManager {
 	 * @param name
 	 *            用户名或者姓名
 	 */
-	public JqGridData<AdminUser> getUserGridData(JqGridParam param, String name) {
+	public JqGridData<SysUser> getUserGridData(JqGridParam param, String name) {
 		PageHelper.startPage((int) param.getPage(), (int) param.getRows());
-		Page<AdminUser> list = (Page<AdminUser>) userMapper.query(name);
-		JqGridData<AdminUser> data = new JqGridData<AdminUser>(list, param);
+		Page<SysUser> list = (Page<SysUser>) userMapper.query(name);
+		JqGridData<SysUser> data = new JqGridData<SysUser>(list, param);
 		return data;
 	}
 
@@ -62,7 +62,7 @@ public class UserManager {
 	 * @return SecUser
 	 */
 	@Cacheable(key = "'User-' + #id")
-	public AdminUser getUserById(Integer id) {
+	public SysUser getUserById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
 
@@ -72,10 +72,10 @@ public class UserManager {
 	 * @param id
 	 * @return SecUser
 	 */
-	public AdminUser selectUserById(Integer id) {
-		AdminUserExample e = new AdminUserExample();
+	public SysUser selectUserById(Integer id) {
+		SysUserExample e = new SysUserExample();
 		e.createCriteria().andIsValidEqualTo(Constant.ACTIVE_YES).andIdEqualTo(id);
-		List<AdminUser> list = userMapper.selectByExample(e);
+		List<SysUser> list = userMapper.selectByExample(e);
 		if (list.isEmpty())
 			return null;
 		return list.get(0);
@@ -92,20 +92,20 @@ public class UserManager {
 	 *            用户名
 	 * @return User
 	 */
-	@Cacheable(key = "'AdminUser-byname-' + #name")
-	public AdminUser getUserByName(String name) {
-		AdminUserExample e = new AdminUserExample();
+	@Cacheable(key = "'SysUser-byname-' + #name")
+	public SysUser getUserByName(String name) {
+		SysUserExample e = new SysUserExample();
 		e.createCriteria().andUserNameEqualTo(name).andIsValidEqualTo(Constant.ACTIVE_YES);
-		List<AdminUser> list = userMapper.selectByExample(e);
+		List<SysUser> list = userMapper.selectByExample(e);
 		if (list.isEmpty())
 			return null;
-		AdminUser user = list.get(0);
+		SysUser user = list.get(0);
 		return user;
 	}
 
-	public int insert(AdminUser user) {
+	public int insert(SysUser user) {
 		// 判断是否重复
-		AdminUser existUser = this.getUserByName(user.getUserName());
+		SysUser existUser = this.getUserByName(user.getUserName());
 		if (existUser != null) {
 			return -1;
 		}
@@ -115,22 +115,22 @@ public class UserManager {
 		String newMd5Password = (new SimpleHash("MD5", user.getPassWord())).toString();// 新的密码单次md5加密
 		String newPassword = Encodes.hexEncode(Digests.sha1(newMd5Password.getBytes(), saltbyte, HASH_INTERATIONS));
 		user.setPassWord(newPassword);
-		user.setCreateTime(new Date());
+		user.setUpdateTime(new Date());
 		return userMapper.insertSelective(user);
 	}
 	
-	public int update(AdminUser user) {		
+	public int update(SysUser user) {		
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
 	
 	public int delete(Integer uid) {
-		AdminUser user = this.getUserById(uid);
+		SysUser user = this.getUserById(uid);
 		user.setIsValid(Constant.ACTIVE_NO);
 		return this.update(user);
 	}
 	
-	public int changePassword(AdminUser user, String oldPassword) {
-		AdminUser record = this.getUserById(user.getId());
+	public int changePassword(SysUser user, String oldPassword) {
+		SysUser record = this.getUserById(user.getId());
 		int HASH_INTERATIONS = 1024;
 		String salt = record.getSalt();
 		String md5Password = (new SimpleHash("MD5", oldPassword)).toString();// md5

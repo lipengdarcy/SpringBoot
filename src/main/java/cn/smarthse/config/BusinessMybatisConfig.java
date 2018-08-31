@@ -56,18 +56,6 @@ public class BusinessMybatisConfig {
 	}
 
 	// step2：定义SqlSessionFactory
-	/**
-	 * 1、当使用MapperScannerConfigurer时不需要configLocation定义(
-	 * 1：mapperLocations可以批量载入mapper
-	 * ，但是MapperScannerConfigurer扫描mapper后不会将已存在的mapper加入到Configuration中
-	 * 2：也可以定义configLocation文件，在里面设置settings和typeAliases等来覆写默认的配置
-	 * 3：如果使用了configLocation文件
-	 * ，并且里面也定义了mappers，那么在MapperScannerConfigurer扫描动作中就不会加入已经存在的mapper了
-	 * （同mapperLocations情况一样） 4：综上所述：建议采用扫描来完成mapper的注册，
-	 * 并且在sqlSessionFactory的bean配置中不需要设置mapperLocations，
-	 * 如果设置了configLocation文件，那么configLocation文件里也不需要再设置mapper了
-	 * 
-	 */
 	@Primary
 	@Bean(name = "defaultSqlSessionFactory")
 	//@DependsOn(value = "defaultDataSource")
@@ -80,7 +68,7 @@ public class BusinessMybatisConfig {
 		// 扫描mybatis mapper文件
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		// bean.setConfigLocation(resolver.getResource("classpath:mybatis/sqlMapConfig.xml"));
-		bean.setMapperLocations(resolver.getResources("classpath*:mapper/default/**/*Mapper.xml"));
+		bean.setMapperLocations(resolver.getResources("classpath*:mapper/**/*Mapper.xml"));
 
 		// 2.配置文件
 		log.debug("step2.1：读取配置前：" + new Date());

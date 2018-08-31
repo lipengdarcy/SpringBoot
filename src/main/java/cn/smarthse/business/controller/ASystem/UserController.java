@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.smarthse.business.model.AdminUser;
+import cn.smarthse.business.model.system.SysUser;
 import cn.smarthse.business.service.security.UserManager;
 import cn.smarthse.framework.Constant;
 import cn.smarthse.framework.model.JqGridData;
@@ -40,8 +40,7 @@ public class UserController {
 	@RequestMapping()
 	public String list(Integer ignor, HttpSession session, ModelMap m) {
 		Integer uid = (Integer) session.getAttribute(Constant.ACCOUNT_SESSION_UID);
-		AdminUser user = UserManager.getUserById(uid);
-		m.put("role", user.getRole());
+		SysUser user = UserManager.getUserById(uid);
 		return basePath + "userList";
 	}
 
@@ -53,8 +52,8 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/listData")
-	public JqGridData<AdminUser> listData(HttpSession session, JqGridParam param, String name) {
-		JqGridData<AdminUser> data = UserManager.getUserGridData(param, name);
+	public JqGridData<SysUser> listData(HttpSession session, JqGridParam param, String name) {
+		JqGridData<SysUser> data = UserManager.getUserGridData(param, name);
 		return data;
 	}
 
@@ -66,9 +65,9 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "getUser", method = RequestMethod.POST)
-	public ResponseData<AdminUser> getUser(Integer uid, HttpSession session) {
-		ResponseData<AdminUser> data = new ResponseData<AdminUser>();
-		AdminUser user = UserManager.getUserById(uid);
+	public ResponseData<SysUser> getUser(Integer uid, HttpSession session) {
+		ResponseData<SysUser> data = new ResponseData<SysUser>();
+		SysUser user = UserManager.getUserById(uid);
 		data.setData(user);
 		return data;
 	}
@@ -101,7 +100,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public ResponseData<Integer> update(String oper, String idlist, AdminUser user, HttpSession session) {
+	public ResponseData<Integer> update(String oper, String idlist, SysUser user, HttpSession session) {
 		ResponseData<Integer> data = new ResponseData<Integer>();
 		switch (oper) {
 		case "add":
@@ -140,7 +139,7 @@ public class UserController {
 	@RequestMapping("profile")
 	public String profile(HttpSession session, ModelMap m) {
 		Integer uid = (Integer) session.getAttribute(Constant.ACCOUNT_SESSION_UID);
-		AdminUser user = UserManager.getUserById(uid);
+		SysUser user = UserManager.getUserById(uid);
 		m.put("user", user);
 		return basePath + "profile";
 	}
@@ -150,7 +149,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	public ResponseData<String> changePassword(String oldPassword, AdminUser user, HttpSession session) {
+	public ResponseData<String> changePassword(String oldPassword, SysUser user, HttpSession session) {
 		ResponseData<String> data = new ResponseData<String>();
 		Integer uid = (Integer) session.getAttribute(Constant.ACCOUNT_SESSION_UID);
 		user.setId(uid);

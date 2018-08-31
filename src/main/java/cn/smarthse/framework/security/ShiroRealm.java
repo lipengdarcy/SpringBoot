@@ -1,6 +1,7 @@
 package cn.smarthse.framework.security;
 
 import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +18,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
-import cn.smarthse.business.model.AdminUser;
+import cn.smarthse.business.model.system.SysUser;
 import cn.smarthse.business.service.security.UserManager;
 import cn.smarthse.framework.Message;
 import cn.smarthse.framework.util.Encodes;
@@ -51,7 +52,7 @@ public class ShiroRealm extends AuthorizingRealm {
 			// 登录账号为空
 			throw new AccountException(Message.bundle.getString(Message.username_cannotbe_null));
 		}
-		AdminUser user = null;
+		SysUser user = null;
 		try {
 			user = userManager.getUserByName(username);
 		} catch (Exception ex) {

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cn.smarthse.AppStart;
+import cn.smarthse.SpringBootStart;
 import cn.smarthse.business.service.jms.JmsMessageConsumer;
 import cn.smarthse.business.service.jms.JmsMessageProducer;
 
@@ -15,7 +15,7 @@ import cn.smarthse.business.service.jms.JmsMessageProducer;
  * Describe: member应用测试类
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AppStart.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SpringBootStart.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class JmsMessageProducerTest {
 
